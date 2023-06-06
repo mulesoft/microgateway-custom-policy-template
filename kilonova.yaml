@@ -1,0 +1,8 @@
+product: microgateway
+component: custom-policy
+asset: template
+componentType: template
+
+builder:
+  name: docker
+  version: v1
