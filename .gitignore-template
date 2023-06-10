@@ -1,0 +1,4 @@
+target/*
+test/config/custom-policies/*
+.pdk
+registration.yaml
