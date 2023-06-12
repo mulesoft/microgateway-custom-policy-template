@@ -21,8 +21,8 @@ deploy: build
 
 .phony: publish
 publish: build
-	anypoint-cli-v4 pdk policy-project publish
+	anypoint-cli-v4 pdk policy-project publish --binaryDir $(TARGET_DIR)
 
 .phony: release
 release: build
-	anypoint-cli-v4 pdk policy-project release
+	anypoint-cli-v4 pdk policy-project release --binaryDir $(TARGET_DIR)
