@@ -1,0 +1,45 @@
+# Copyright 2023 Salesforce, Inc. All rights reserved.
+apiVersion: gateway.mulesoft.com/v1alpha1
+kind: Extension
+metadata:
+  name: header-injection-lite-example
+spec:
+  extends:
+    - name: extension-definition
+    - name: extension-qos
+    - name: extension-implementation
+    - name: envoy-filter
+    - name: proxy-wasm-filter
+  properties:
+    rootId:
+      type: string
+      default: main
+    inboundHeaders:
+      type: array
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+          value:
+            type: string
+            format: stringOrDataweave
+        required:
+          - key
+          - value
+    outboundHeaders:
+      type: array
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+          value:
+            type: string
+            format: stringOrDataweave
+        required:
+          - key
+          - value
+    implementation:
+      type: string
+      default: base64://<ENCODED>

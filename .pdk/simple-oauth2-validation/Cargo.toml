@@ -1,0 +1,15 @@
+# Copyright 2023 Salesforce, Inc. All rights reserved.
+[package]
+name = "simple-oauth2-validation"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+pdk = { path = "../pdk/pdk", package = "pdk" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+serde_urlencoded = "0.7.0"
+anyhow = "1.0.64"

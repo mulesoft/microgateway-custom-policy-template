@@ -18,3 +18,11 @@ build: build-definition
 .phony: deploy
 deploy: build
 	cp $(TARGET_DIR)/$(NAME).yaml test/config/custom-policies/$(NAME).yaml
+
+.phony: publish
+publish: build
+	anypoint-cli-v4 pdk policy-project publish
+
+.phony: release
+release: build
+	anypoint-cli-v4 pdk policy-project release
