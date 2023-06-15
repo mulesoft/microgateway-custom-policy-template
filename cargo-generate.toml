@@ -2,6 +2,9 @@
 [template]
 cargo_generate_version = ">=0.10.0"
 ignore = [
+    "kilonova.yaml",
+    "Dockerfile",
+    "Jenkinsfile",
     "Readme.md",
     ".git",
     ".github",
