@@ -1,6 +1,6 @@
 TARGET         := wasm32-wasi
 TARGET_DIR     := target/$(TARGET)/release
-NAME           := my_policy_flex_gateway
+NAME           := {{ crate_name }}
 DEFINITION_NAME := $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_GCL_PATH := $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 
