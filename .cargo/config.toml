@@ -1,0 +1,5 @@
+[registries]
+anypoint = { index = "{{ anypoint-registry-url }}" }
+
+[net]
+git-fetch-with-cli = true
