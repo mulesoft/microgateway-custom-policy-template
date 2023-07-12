@@ -5,6 +5,7 @@ CARGO_ANYPOINT 		:= cargo-anypoint
 DEFINITION_NAME     = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 ASSET_VERSION       = $(shell cargo anypoint get-version)
+CRATE_NAME          = $(shell cargo anypoint get-name)
 OAUTH_TOKEN         = $(shell anypoint-cli-v4 conf token | grep -o '"token": *"[^"]*"' | cut -d '"' -f 4)
 
 .phony: setup
@@ -31,7 +32,7 @@ release: build
 
 .phony: build-asset-files
 build-asset-files: $(DEFINITION_GCL)
-	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION)
+	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION) --asset-id $(CRATE_NAME)
 	@cargo anypoint config-gen -p -m $(DEFINITION_GCL_PATH) -o src/generated/config.rs
 
 .phony: login
