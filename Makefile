@@ -32,7 +32,7 @@ release: build
 
 .phony: build-asset-files
 build-asset-files: $(DEFINITION_GCL)
-	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION) --asset-id $(CREATE_NAME)
+	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION) --asset-id $(CRATE_NAME)
 	@cargo anypoint config-gen -p -m $(DEFINITION_GCL_PATH) -o src/generated/config.rs
 
 .phony: login
