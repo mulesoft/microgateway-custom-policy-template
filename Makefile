@@ -24,11 +24,11 @@ deploy: build
 
 .phony: publish
 publish: build
-	anypoint-cli-v4 pdk policy-project publish --binaryDir $(TARGET_DIR)
+	anypoint-cli-v4 pdk policy-project publish --binaryPath $(TARGET_DIR)/$(NAME).wasm
 
 .phony: release
 release: build
-	anypoint-cli-v4 pdk policy-project release --binaryDir $(TARGET_DIR)
+	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(NAME).wasm
 
 .phony: build-asset-files
 build-asset-files: $(DEFINITION_GCL)
