@@ -18,9 +18,13 @@ build: build-asset-files
 	@cp $(DEFINITION_GCL_PATH) $(TARGET_DIR)/$(NAME)_definition.yaml
 	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -w $(TARGET_DIR)/$(NAME).wasm -o $(TARGET_DIR)/$(NAME)_implementation.yaml
 
-.phony: deploy
-deploy: build
-	cp $(TARGET_DIR)/$(NAME).yaml test/config/custom-policies/$(NAME).yaml
+.phony: run
+run: build
+	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in test/config/api.yaml file for the policy configuration"
+	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
+	cp $(TARGET_DIR)/$(NAME)_implementation.yaml test/config/custom-policies/$(NAME)_implementation.yaml
+	cp $(TARGET_DIR)/$(NAME)_definition.yaml test/config/custom-policies/$(NAME)_definition.yaml
+	docker compose -f ./test/docker-compose.yaml up
 
 .phony: publish
 publish: build
