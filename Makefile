@@ -7,6 +7,7 @@ DEFINITION_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl defi
 ASSET_VERSION       = $(shell cargo anypoint get-version)
 CRATE_NAME          = $(shell cargo anypoint get-name)
 OAUTH_TOKEN         = $(shell anypoint-cli-v4 conf token | grep -o '"token": *"[^"]*"' | cut -d '"' -f 4)
+SETUP_ERROR_CMD		= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
 .phony: setup
 setup: login install-cargo-anypoint
@@ -35,9 +36,16 @@ release: build
 	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(NAME).wasm
 
 .phony: build-asset-files
-build-asset-files: $(DEFINITION_GCL)
+build-asset-files: --check-setup $(DEFINITION_GCL)
 	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION) --asset-id $(CRATE_NAME)
 	@cargo anypoint config-gen -p -m $(DEFINITION_GCL_PATH) -o src/generated/config.rs
+
+### -- Setup
+# This private goal is to check both the login and the install of the Cargo anypoint plugin was executed
+.SILENT:
+--check-setup:
+	@(cargo +nightly config get registries.anypoint.index -Z unstable-options > /dev/null) || ($(SETUP_ERROR_CMD); exit 1)
+	@(cargo --list | grep anypoint > /dev/null) || ($(SETUP_ERROR_CMD); exit 2)
 
 .phony: login
 login:
