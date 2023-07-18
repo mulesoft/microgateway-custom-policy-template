@@ -1,10 +1,5 @@
 # Copyright 2023 Salesforce, Inc. All rights reserved.
 [template]
-
-[placeholders.asset-version]
-type = "string"
-prompt = "Please provide an initial version for the policy to create"
-
 cargo_generate_version = ">=0.10.0"
 ignore = [
     "kilonova.yaml",
@@ -23,6 +18,10 @@ ignore = [
     ".gitpod.Dockerfile",
     ".gitpod.yml",
 ]
+
+[placeholders.asset-version]
+type = "string"
+prompt = "Please provide an initial version for the policy to create"
 
 [hooks]
 post = ["post-script.rhai"]
