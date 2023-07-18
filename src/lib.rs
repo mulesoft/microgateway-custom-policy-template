@@ -1,25 +1,23 @@
 // Copyright 2023 Salesforce, Inc. All rights reserved.
-mod generated;
-
 use anyhow::Result;
-use pdk::api::classy::bootstrap::Launcher;
-use pdk::api::classy::event::{Exchange, HeadersAccessor, RequestHeaders};
-use pdk::api::classy::Configuration;
-use pdk::api::logger;
+
+use pdk::hilux::*;
+
 use crate::generated::config::Config;
 
 // This filter shows how to log a specific request header.
 // You can extend the function and use the configurations exposed in config.rs file
-async fn filter(exchange: Exchange<RequestHeaders>, _config: &Config) {
-    if let Some(event) = exchange.event_data() {
-        // Log the header value
-        logger::info!("Header value: {}", event.header("Token").unwrap_or_default());
-    }
+async fn request_filter(request_state: RequestState, _config: &Config) {
+    let headers_state = request_state.into_headers_state().await;
+    let token = headers_state.handler().header("Token").unwrap_or_default();
+    // Log the header value
+    logger::info!("Header value: {token}");
 }
 
-#[pdk::api::entrypoint]
+#[entrypoint]
 async fn configure(launcher: Launcher, Configuration(bytes): Configuration) -> Result<()> {
     let config = serde_json::from_slice(&bytes)?;
-    launcher.launch(|e| filter(e, &config)).await?;
+    let filter = on_request(|rs| request_filter(rs, &config));
+    launcher.launch(filter).await?;
     Ok(())
 }
