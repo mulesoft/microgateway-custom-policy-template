@@ -1,4 +1,6 @@
 // Copyright 2023 Salesforce, Inc. All rights reserved.
+mod generated;
+
 use anyhow::Result;
 
 use pdk::hilux::*;
