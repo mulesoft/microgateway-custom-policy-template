@@ -9,6 +9,11 @@ CRATE_NAME          = $(shell cargo anypoint get-name)
 OAUTH_TOKEN         = $(shell anypoint-cli-v4 conf token | grep -o '"token": *"[^"]*"' | cut -d '"' -f 4)
 SETUP_ERROR_CMD		= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
+ifeq ($(OS), Windows_NT)
+    SHELL = powershell.exe
+    .SHELLFLAGS = -NoProfile -ExecutionPolicy Bypass -Command
+endif
+
 .phony: setup
 setup: login install-cargo-anypoint
 	cargo +nightly fetch -Z registry-auth
