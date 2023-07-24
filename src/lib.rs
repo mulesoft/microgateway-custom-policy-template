@@ -3,7 +3,7 @@ mod generated;
 
 use anyhow::Result;
 
-use pdk::hilux::*;
+use pdk::api::hl::*;
 
 use crate::generated::config::Config;
 
