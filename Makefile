@@ -41,16 +41,9 @@ release: build
 	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(NAME).wasm
 
 .phony: build-asset-files
-build-asset-files: --check-setup $(DEFINITION_GCL)
+build-asset-files:
 	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION) --asset-id $(CRATE_NAME)
 	@cargo anypoint config-gen -p -m $(DEFINITION_GCL_PATH) -o src/generated/config.rs
-
-### -- Setup
-# This private goal is to check both the login and the install of the Cargo anypoint plugin was executed
-.SILENT:
---check-setup:
-	@(cargo +nightly config get registries.anypoint.index -Z unstable-options > /dev/null) || ($(SETUP_ERROR_CMD); exit 1)
-	@(cargo --list | grep anypoint > /dev/null) || ($(SETUP_ERROR_CMD); exit 2)
 
 .phony: login
 login:
@@ -58,7 +51,4 @@ login:
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
-	@if ! cargo install --list | grep -q '^$(CARGO_ANYPOINT) '; then \
-		echo "Installing $(CARGO_ANYPOINT)"; \
-		cargo +nightly install cargo-anypoint --registry anypoint -Z registry-auth --config .cargo/config.toml; \
-	fi
+	cargo +nightly install cargo-anypoint --registry anypoint -Z registry-auth --config .cargo/config.toml
