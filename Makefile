@@ -15,17 +15,17 @@ ifeq ($(OS), Windows_NT)
 endif
 
 .phony: setup
-setup: login install-cargo-anypoint
+setup: login install-cargo-anypoint ## Setup all required tools to build 
 	cargo +nightly fetch -Z registry-auth
 
 .phony: build
-build: build-asset-files
+build: build-asset-files ## Build the policy definition and implementation
 	@cargo build --target $(TARGET) --release
 	@cp $(DEFINITION_GCL_PATH) $(TARGET_DIR)/$(NAME)_definition.yaml
 	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -w $(TARGET_DIR)/$(NAME).wasm -o $(TARGET_DIR)/$(NAME)_implementation.yaml
 
 .phony: run
-run: build
+run: build ## Runs the policy in local flex
 	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in test/config/api.yaml file for the policy configuration"
 	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
 	cp $(TARGET_DIR)/$(NAME)_implementation.yaml test/config/custom-policies/$(NAME)_implementation.yaml
@@ -34,11 +34,11 @@ run: build
 	docker compose -f ./test/docker-compose.yaml up
 
 .phony: publish
-publish: build
+publish: build ## Publish a development version of the policy
 	anypoint-cli-v4 pdk policy-project publish --binaryPath $(TARGET_DIR)/$(NAME).wasm
 
 .phony: release
-release: build
+release: build ## Publish a release version
 	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(NAME).wasm
 
 .phony: build-asset-files
@@ -53,3 +53,17 @@ login:
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
 	cargo +nightly install cargo-anypoint --registry anypoint -Z registry-auth --config .cargo/config.toml
+
+ifneq ($(OS), Windows_NT)
+all: help
+
+.PHONY: help
+help: ## Shows this help
+	@echo 'Usage: make <target>'
+	@echo ''
+	@echo 'Available targets are:'
+	@echo ''
+	@grep -Eh '^\w[^:]+:.*?## .*$$' $(MAKEFILE_LIST) \
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-6s\033[0m %s\n", $$1, $$2}' \
+		| sort
+endif
