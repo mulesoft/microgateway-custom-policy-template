@@ -14,8 +14,6 @@ ifeq ($(OS), Windows_NT)
     .SHELLFLAGS = -NoProfile -ExecutionPolicy Bypass -Command
 endif
 
-all: help
-
 .phony: setup
 setup: login install-cargo-anypoint ## Setup all required tools to build 
 	cargo +nightly fetch -Z registry-auth
@@ -56,6 +54,9 @@ login:
 install-cargo-anypoint:
 	cargo +nightly install cargo-anypoint --registry anypoint -Z registry-auth --config .cargo/config.toml
 
+ifneq ($(OS), Windows_NT)
+all: help
+
 .PHONY: help
 help: ## Shows this help
 	@echo 'Usage: make <target>'
@@ -65,3 +66,4 @@ help: ## Shows this help
 	@grep -Eh '^\w[^:]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-6s\033[0m %s\n", $$1, $$2}' \
 		| sort
+endif
