@@ -1,13 +1,12 @@
-TARGET         		:= wasm32-wasi
-TARGET_DIR     		:= target/$(TARGET)/release
-NAME           		:= {{ crate_name }}
-CARGO_ANYPOINT 		:= cargo-anypoint
+TARGET              := wasm32-wasi
+TARGET_DIR          := target/$(TARGET)/release
+CARGO_ANYPOINT      := cargo-anypoint
 DEFINITION_NAME     = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 ASSET_VERSION       = $(shell cargo anypoint get-version)
 CRATE_NAME          = $(shell cargo anypoint get-name)
 OAUTH_TOKEN         = $(shell anypoint-cli-v4 pdk get-token)
-SETUP_ERROR_CMD		= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
+SETUP_ERROR_CMD     = (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
 ifeq ($(OS), Windows_NT)
     SHELL = powershell.exe
@@ -15,31 +14,31 @@ ifeq ($(OS), Windows_NT)
 endif
 
 .phony: setup
-setup: login install-cargo-anypoint ## Setup all required tools to build 
+setup: login install-cargo-anypoint ## Setup all required tools to build
 	cargo +nightly fetch -Z registry-auth
 
 .phony: build
 build: build-asset-files ## Build the policy definition and implementation
 	@cargo build --target $(TARGET) --release
-	@cp $(DEFINITION_GCL_PATH) $(TARGET_DIR)/$(NAME)_definition.yaml
-	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -w $(TARGET_DIR)/$(NAME).wasm -o $(TARGET_DIR)/$(NAME)_implementation.yaml
+	@cp $(DEFINITION_GCL_PATH) $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml
+	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -w $(TARGET_DIR)/$(CRATE_NAME).wasm -o $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
 .phony: run
 run: build ## Runs the policy in local flex
 	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in test/config/api.yaml file for the policy configuration"
 	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
-	cp $(TARGET_DIR)/$(NAME)_implementation.yaml test/config/custom-policies/$(NAME)_implementation.yaml
-	cp $(TARGET_DIR)/$(NAME)_definition.yaml test/config/custom-policies/$(NAME)_definition.yaml
+	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml test/config/custom-policies/$(CRATE_NAME)_implementation.yaml
+	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml test/config/custom-policies/$(CRATE_NAME)_definition.yaml
 	-docker compose -f ./test/docker-compose.yaml down
 	docker compose -f ./test/docker-compose.yaml up
 
 .phony: publish
 publish: build ## Publish a development version of the policy
-	anypoint-cli-v4 pdk policy-project publish --binaryPath $(TARGET_DIR)/$(NAME).wasm
+	anypoint-cli-v4 pdk policy-project publish --binaryPath $(TARGET_DIR)/$(CRATE_NAME).wasm
 
 .phony: release
 release: build ## Publish a release version
-	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(NAME).wasm
+	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(CRATE_NAME).wasm
 
 .phony: build-asset-files
 build-asset-files:
