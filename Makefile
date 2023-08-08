@@ -1,12 +1,12 @@
-TARGET         		:= wasm32-wasi
-TARGET_DIR     		:= target/$(TARGET)/release
-CARGO_ANYPOINT 		:= cargo-anypoint
+TARGET              := wasm32-wasi
+TARGET_DIR          := target/$(TARGET)/release
+CARGO_ANYPOINT      := cargo-anypoint
 DEFINITION_NAME     = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 ASSET_VERSION       = $(shell cargo anypoint get-version)
 CRATE_NAME          = $(shell cargo anypoint get-name)
 OAUTH_TOKEN         = $(shell anypoint-cli-v4 pdk get-token)
-SETUP_ERROR_CMD		= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
+SETUP_ERROR_CMD     = (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
 ifeq ($(OS), Windows_NT)
     SHELL = powershell.exe
