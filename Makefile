@@ -34,11 +34,11 @@ run: build ## Runs the policy in local flex
 
 .phony: publish
 publish: build ## Publish a development version of the policy
-	anypoint-cli-v4 pdk policy-project publish --binaryPath $(TARGET_DIR)/$(CRATE_NAME).wasm
+	anypoint-cli-v4 pdk policy-project publish --binary-path $(TARGET_DIR)/$(CRATE_NAME).wasm --implementation-gcl-path $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
 .phony: release
 release: build ## Publish a release version
-	anypoint-cli-v4 pdk policy-project release --binaryPath $(TARGET_DIR)/$(CRATE_NAME).wasm
+	anypoint-cli-v4 pdk policy-project release --binary-path $(TARGET_DIR)/$(CRATE_NAME).wasm --implementation-gcl-path $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
 .phony: build-asset-files
 build-asset-files:
