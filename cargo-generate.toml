@@ -24,5 +24,17 @@ ignore = [
 type = "string"
 prompt = "Please provide an initial version for the policy to create"
 
+[placeholders.group-id]
+type = "string"
+prompt = "Please provide the group-id of the policy assets"
+
+[placeholders.asset-id]
+type = "string"
+prompt = "Please provide an asset-id for the policy"
+
+[placeholders.anypoint-registry-url]
+type = "string"
+prompt = "Please provide the URL of the Anypoint registry"
+
 [hooks]
 post = ["post-script.rhai"]
