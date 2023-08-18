@@ -4,7 +4,7 @@ CARGO_ANYPOINT        := cargo-anypoint
 DEFINITION_NAME        = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_GCL_PATH    = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 CRATE_NAME             = $(shell cargo anypoint get-name)
-ANYPOINT_METADATA_JSON = $(shell cargo anypoint get-anypoint-metadata-json)
+ANYPOINT_METADATA_JSON = $(shell cargo anypoint get-anypoint-metadata)
 OAUTH_TOKEN            = $(shell anypoint-cli-v4 pdk get-token)
 SETUP_ERROR_CMD        = (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
