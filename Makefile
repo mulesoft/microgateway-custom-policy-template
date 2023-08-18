@@ -51,7 +51,7 @@ login:
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo +nightly install cargo-anypoint@{{ cargo-anypoint-version | default: "1.0.0-beta.1" }} --registry anypoint -Z registry-auth --config .cargo/config.toml
+	cargo +nightly install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-beta.1" }} --registry anypoint -Z registry-auth --config .cargo/config.toml
 
 ifneq ($(OS), Windows_NT)
 all: help
