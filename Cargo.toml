@@ -6,8 +6,13 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[package.metadata.anypoint]
+group_id = "{{ group-id }}"
+definition_asset_id = "{{ project-name }}"
+asset_id = "{{ asset-id }}"
+
 [dependencies]
-pdk = { version = "1.0.0-beta.1", registry = "anypoint" }
+pdk = { version = "{{ pdk_version | default: "1.0.0-beta.1" }}", registry = "anypoint" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
 anyhow = "1.0"

@@ -1,12 +1,12 @@
-TARGET              := wasm32-wasi
-TARGET_DIR          := target/$(TARGET)/release
-CARGO_ANYPOINT      := cargo-anypoint
-DEFINITION_NAME     = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
-DEFINITION_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
-ASSET_VERSION       = $(shell cargo anypoint get-version)
-CRATE_NAME          = $(shell cargo anypoint get-name)
-OAUTH_TOKEN         = $(shell anypoint-cli-v4 pdk get-token)
-SETUP_ERROR_CMD     = (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
+TARGET                := wasm32-wasi
+TARGET_DIR            := target/$(TARGET)/release
+CARGO_ANYPOINT        := cargo-anypoint
+DEFINITION_NAME        = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
+DEFINITION_GCL_PATH    = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
+CRATE_NAME             = $(shell cargo anypoint get-name)
+ANYPOINT_METADATA_JSON = $(shell cargo anypoint get-anypoint-metadata)
+OAUTH_TOKEN            = $(shell anypoint-cli-v4 pdk get-token)
+SETUP_ERROR_CMD        = (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
 ifeq ($(OS), Windows_NT)
     SHELL = powershell.exe
@@ -42,7 +42,7 @@ release: build ## Publish a release version
 
 .phony: build-asset-files
 build-asset-files:
-	@anypoint-cli-v4 pdk policy-project build-asset-files --version $(ASSET_VERSION) --asset-id $(CRATE_NAME)
+	@anypoint-cli-v4 pdk policy-project build-asset-files --metadata '$(ANYPOINT_METADATA_JSON)'
 	@cargo anypoint config-gen -p -m $(DEFINITION_GCL_PATH) -o src/generated/config.rs
 
 .phony: login
@@ -51,7 +51,7 @@ login:
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo +nightly install cargo-anypoint@1.0.0-beta.1 --registry anypoint -Z registry-auth --config .cargo/config.toml
+	cargo +nightly install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-beta.1" }} --registry anypoint -Z registry-auth --config .cargo/config.toml
 
 ifneq ($(OS), Windows_NT)
 all: help
