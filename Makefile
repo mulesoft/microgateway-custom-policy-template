@@ -15,7 +15,7 @@ endif
 
 .phony: setup
 setup: login install-cargo-anypoint ## Setup all required tools to build
-	cargo +nightly fetch -Z registry-auth
+	cargo fetch
 
 .phony: build
 build: build-asset-files ## Build the policy definition and implementation
@@ -51,7 +51,7 @@ login:
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo +nightly install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-dev.1" }} --registry anypoint -Z registry-auth --config .cargo/config.toml
+	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-dev.1" }} --registry anypoint --config .cargo/config.toml
 
 ifneq ($(OS), Windows_NT)
 all: help
