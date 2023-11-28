@@ -51,8 +51,8 @@ login:
 
 .phony: registry-creds
 registry-creds:
-	@git config --global credential."https://qax.anypoint.mulesoft.com/git/68ef9520-24e9-4cf2-b2f5-620025690913/9be4ef3a-cb3e-479c-a1c4-e47cf2e02540".username me
-	@git config --global credential."https://qax.anypoint.mulesoft.com/git/68ef9520-24e9-4cf2-b2f5-620025690913/9be4ef3a-cb3e-479c-a1c4-e47cf2e02540".helper "!f() { test \"\$$1\" = get && echo \"password=\$$(anypoint-cli-v4 pdk get-token)\"; }; f"
+	git config --global credential."{{ anypoint-registry-url }}".username me
+	git config --global credential."{{ anypoint-registry-url }}".helper "!f() { test \"\$$1\" = get && echo \"password=\$$(anypoint-cli-v4 pdk get-token)\"; }; f"
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
