@@ -14,7 +14,7 @@ ifeq ($(OS), Windows_NT)
 endif
 
 .phony: setup
-setup: login install-cargo-anypoint ## Setup all required tools to build
+setup: registry-creds login install-cargo-anypoint ## Setup all required tools to build
 	cargo fetch
 
 .phony: build
@@ -48,6 +48,11 @@ build-asset-files:
 .phony: login
 login:
 	cargo login --registry anypoint $(OAUTH_TOKEN)
+
+.phony: registry-creds
+registry-creds:
+	@git config --global credential."{{ anypoint-registry-url }}".username me
+	@git config --global credential."{{ anypoint-registry-url }}".helper "!f() { test \"\$$1\" = get && echo \"password=\$$(anypoint-cli-v4 pdk get-token)\"; }; f"
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
