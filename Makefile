@@ -47,7 +47,7 @@ build-asset-files:
 
 .phony: login
 login:
-	cargo login --registry anypoint $(OAUTH_TOKEN)
+	@cargo login --registry anypoint $(OAUTH_TOKEN)
 
 .phony: registry-creds
 registry-creds:
