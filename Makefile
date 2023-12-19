@@ -1,12 +1,13 @@
-TARGET                := wasm32-wasi
-TARGET_DIR            := target/$(TARGET)/release
-CARGO_ANYPOINT        := cargo-anypoint
-DEFINITION_NAME        = $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
-DEFINITION_GCL_PATH    = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
-CRATE_NAME             = $(shell cargo anypoint get-name)
-ANYPOINT_METADATA_JSON = $(shell cargo anypoint get-anypoint-metadata)
-OAUTH_TOKEN            = $(shell anypoint-cli-v4 pdk get-token)
-SETUP_ERROR_CMD        = (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
+TARGET                	:= wasm32-wasi
+TARGET_DIR            	:= target/$(TARGET)/release
+CARGO_ANYPOINT        	:= cargo-anypoint
+DEFINITION_NAME        	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
+DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition-src)
+DEFINITION_GCL_PATH    	= $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
+CRATE_NAME             	= $(shell cargo anypoint get-name)
+ANYPOINT_METADATA_JSON 	= $(shell cargo anypoint get-anypoint-metadata)
+OAUTH_TOKEN            	= $(shell anypoint-cli-v4 pdk get-token)
+SETUP_ERROR_CMD        	= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
 ifeq ($(OS), Windows_NT)
     SHELL = powershell.exe
@@ -41,9 +42,9 @@ release: build ## Publish a release version
 	anypoint-cli-v4 pdk policy-project release --binary-path $(TARGET_DIR)/$(CRATE_NAME).wasm --implementation-gcl-path $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
 .phony: build-asset-files
-build-asset-files:
+build-asset-files: $(DEFINITION_SRC_GCL_PATH)
 	@anypoint-cli-v4 pdk policy-project build-asset-files --metadata '$(ANYPOINT_METADATA_JSON)'
-	@cargo anypoint config-gen -p -m $(DEFINITION_GCL_PATH) -o src/generated/config.rs
+	@cargo anypoint config-gen -p -m $(DEFINITION_SRC_GCL_PATH) -o src/generated/config.rs
 
 .phony: login
 login:
