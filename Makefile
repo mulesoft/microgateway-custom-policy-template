@@ -28,6 +28,7 @@ build: build-asset-files ## Build the policy definition and implementation
 run: build ## Runs the policy in local flex
 	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in test/config/api.yaml file for the policy configuration"
 	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
+	rm test/config/custom-policies/*.yaml
 	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml test/config/custom-policies/$(CRATE_NAME)_implementation.yaml
 	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml test/config/custom-policies/$(CRATE_NAME)_definition.yaml
 	-docker compose -f ./test/docker-compose.yaml down
