@@ -18,6 +18,11 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
 anyhow = "1.0"
 
+[dev-dependencies]
+pdk-test = { version = "{{ pdk_version | default: "1.0.0-beta.1" }}", registry = "anypoint" }
+httpmock = "0.6"
+reqwest = "0.11"
+
 [lib]
 crate-type = ["cdylib"]
 
