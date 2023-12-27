@@ -63,7 +63,7 @@ async fn get_request() -> anyhow::Result<()> {
     }).await;
 
     // Perform an actual request
-    let response = reqwest::get(format!("{flex_url}/hello")).await;
+    let response = reqwest::get(format!("{flex_url}/hello")).await?;
 
     // Assert on the response
     assert_eq!(response.status(), 200);
