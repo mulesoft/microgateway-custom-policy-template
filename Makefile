@@ -2,6 +2,7 @@ TARGET                	:= wasm32-wasi
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
 DEFINITION_NAME        	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
+DEFINITION_NAMESPACE   	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-namespace)
 DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition-src)
 DEFINITION_GCL_PATH    	= $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 CRATE_NAME             	= $(shell cargo anypoint get-name)
@@ -22,12 +23,13 @@ setup: registry-creds login install-cargo-anypoint ## Setup all required tools t
 build: build-asset-files ## Build the policy definition and implementation
 	@cargo build --target $(TARGET) --release
 	@cp $(DEFINITION_GCL_PATH) $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml
-	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -w $(TARGET_DIR)/$(CRATE_NAME).wasm -o $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
+	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -n $(DEFINITION_NAMESPACE) -w $(TARGET_DIR)/$(CRATE_NAME).wasm -o $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
 .phony: run
 run: build ## Runs the policy in local flex
 	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in test/config/api.yaml file for the policy configuration"
 	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
+	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.namespace" -v "$(DEFINITION_NAMESPACE)"
 	rm -f test/config/custom-policies/*.yaml
 	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml test/config/custom-policies/$(CRATE_NAME)_implementation.yaml
 	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml test/config/custom-policies/$(CRATE_NAME)_definition.yaml
