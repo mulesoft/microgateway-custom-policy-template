@@ -38,6 +38,9 @@ run: build ## Runs the policy in local flex
 
 .phony: test
 test: build ## Run integration tests
+	rm -f test/config/custom-policies/*.yaml
+	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml test/config/custom-policies/$(CRATE_NAME)_implementation.yaml
+	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml test/config/custom-policies/$(CRATE_NAME)_definition.yaml
 	@cargo test
 
 .phony: publish

@@ -31,8 +31,9 @@ async fn get_request() -> anyhow::Result<()> {
         ])
         .build();
 
-    // Configure an HttpMock service 
+    // Configure an HttpMock service
     let httpmock_config = HttpMockConfig::builder()
+        .port(80)
         .version("latest")
         .hostname("backend")
         .build();
@@ -53,7 +54,7 @@ async fn get_request() -> anyhow::Result<()> {
     // Get a handle to the HttpMock service
     let httpmock: HttpMock = composite.service()?;
 
-    // Create a MockServer 
+    // Create a MockServer
     let mock_server = MockServer::connect_async(httpmock.socket()).await;
 
     // Mock a /hello request
@@ -66,7 +67,7 @@ async fn get_request() -> anyhow::Result<()> {
     let response = reqwest::get(format!("{flex_url}/hello")).await?;
 
     // Assert on the response
-    assert_eq!(response.status(), 200);
+    assert_eq!(response.status(), 202);
 
     Ok(())
 }
