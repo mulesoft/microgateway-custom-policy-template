@@ -67,7 +67,7 @@ registry-creds:
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-rc.1" }} --registry anypoint --config .cargo/config.toml
+	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-rc.2" }} --registry anypoint --config .cargo/config.toml
 
 ifneq ($(OS), Windows_NT)
 all: help
