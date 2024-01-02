@@ -28,6 +28,11 @@ Otherwise, to complete the registration we recommend using the Anypoint Platform
 
 The `test/config` directory can also contain other resource definitions, such as accessory services used by the policy (Eg. a remote authentication service).
 
+### Test
+The `make test` goal runs unit tests and integration tests. Integration tests are 
+placed in the `tests` directory and are configured with the files placed at the
+`tests/config` directory.
+
 ### Publish
 The `make publish` goal publishes the policy asset in Anypoint Exchange, in your configured Organization.
 
