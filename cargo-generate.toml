@@ -18,6 +18,7 @@ ignore = [
     ".dockerignore",
     ".gitpod.Dockerfile",
     ".gitpod.yml",
+    "LICENSE.txt"
 ]
 
 [placeholders.asset-version]
