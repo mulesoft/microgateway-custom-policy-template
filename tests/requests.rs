@@ -10,7 +10,7 @@ use pdk_test::services::httpmock::{HttpMockConfig, HttpMock};
 const POLICY_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/test/config/custom-policies");
 
 // Directory where the tests are configured
-const CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/config/requests");
+const CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/hello");
 
 // Flex port for the internal test network
 const FLEX_PORT: Port = 8081;
@@ -18,7 +18,7 @@ const FLEX_PORT: Port = 8081;
 // This integration test shows how to build a test to compose a local-flex instance
 // with a MockServer backend
 #[pdk_test]
-async fn get_request() -> anyhow::Result<()> {
+async fn hello() -> anyhow::Result<()> {
 
     // Configure a Flex service
     let flex_config = FlexConfig::builder()
