@@ -14,8 +14,11 @@ spec:
             destinationPath: /anything/echo/
   policies:
     - policyRef:
-      # Replace this placeholder with the actual policy name.
-      name: "policy-name"       
+
+      # Replace `{{project-name}}` placeholder with the actual policy name.
+      # After running `make build`, you will find the actual policy name at the property 
+      # `metadata.name` from the file `/target/gcl.yaml`.
+      name: {{project-name}}       
         
       # Fill the config with a policy configuration that matches the schema specified in the policy
       # definition gcl.yaml. Eg:
