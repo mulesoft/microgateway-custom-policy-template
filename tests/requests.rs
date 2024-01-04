@@ -10,7 +10,7 @@ use pdk_test::services::httpmock::{HttpMockConfig, HttpMock};
 const POLICY_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/test/config/custom-policies");
 
 // Directory with the common configurations for tests.
-const CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/common");
+const COMMON_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/common");
 
 // Directory with the configurations for the `hello` test.
 const HELLO_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/hello");
@@ -30,8 +30,8 @@ async fn hello() -> anyhow::Result<()> {
         .ports([FLEX_PORT])
         .config_mounts([
             (POLICY_DIR, "policy"),
-            (COMMON_CONFIG_DIR, "common")
-            (HELLO_CONFIG_DIR, "hello")
+            (COMMON_CONFIG_DIR, "common"),
+            (HELLO_CONFIG_DIR, "hello"),
         ])
         .build();
 
