@@ -6,11 +6,14 @@ use pdk_test::port::Port;
 use pdk_test::services::flex::{FlexConfig, Flex};
 use pdk_test::services::httpmock::{HttpMockConfig, HttpMock};
 
-// Directory where the policies implementations are stored
+// Directory where the policies implementations are stored.
 const POLICY_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/test/config/custom-policies");
 
-// Directory where the tests are configured
-const CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/hello");
+// Directory with the common configurations for tests.
+const CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/common");
+
+// Directory with the configurations for the `hello` test.
+const HELLO_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/hello");
 
 // Flex port for the internal test network
 const FLEX_PORT: Port = 8081;
@@ -27,7 +30,8 @@ async fn hello() -> anyhow::Result<()> {
         .ports([FLEX_PORT])
         .config_mounts([
             (POLICY_DIR, "policy"),
-            (CONFIG_DIR, "config")
+            (COMMON_CONFIG_DIR, "common")
+            (HELLO_CONFIG_DIR, "hello")
         ])
         .build();
 

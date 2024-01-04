@@ -15,7 +15,7 @@ spec:
   policies:
     - policyRef:
 
-      # Replace `{{project-name}}` placeholder with the actual policy name.
+      # Override the `{{project-name}}` placeholder with the actual policy name.
       # After running `make build`, you will find the actual policy name at the property 
       # `metadata.name` from the file `/target/gcl.yaml`.
       name: {{project-name}}       
