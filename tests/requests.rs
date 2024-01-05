@@ -1,5 +1,7 @@
 // Copyright 2023 Salesforce, Inc. All rights reserved.
 
+mod common;
+
 use httpmock::MockServer;
 use pdk_test::{pdk_test, TestComposite};
 use pdk_test::port::Port;
