@@ -14,7 +14,11 @@ spec:
             destinationPath: /anything/echo/
   policies:
     - policyRef:
-        name: {{ project-name }} # This value will be overriden during 'make test' execution
+
+      # Override the `{{project-name}}` placeholder with the actual policy name.
+      # Look for the actual policy name at the `metadata.name` property from the `gcl.yaml` file.
+      name: {{project-name}}       
+        
       # Fill the config with a policy configuration that matches the schema specified in the policy
       # definition gcl.yaml. Eg:
       # config:
