@@ -63,7 +63,10 @@ login:
 .phony: registry-creds
 registry-creds:
 	@git config --global credential."{{ anypoint-registry-url }}".username me
-	@git config --global credential."{{ anypoint-registry-url }}".helper "!f() { test \"\$$1\" = get && echo \"password=\$$(anypoint-cli-v4 pdk get-token)\"; }; f"
+	@# First removing other password helpers for Anypoint context
+	@git config --global --replace-all credential."{{ anypoint-registry-url }}".helper ""
+	@# Finally adding the only password helper for Anypoint context
+	@git config --global --add credential."{{ anypoint-registry-url }}".helper "!f() { test \"\$$1\" = get && echo \"password=\$$(anypoint-cli-v4 pdk get-token)\"; }; f"
 
 .phony: install-cargo-anypoint
 install-cargo-anypoint:
