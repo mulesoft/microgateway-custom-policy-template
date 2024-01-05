@@ -15,52 +15,49 @@ ifeq ($(OS), Windows_NT)
     .SHELLFLAGS = -NoProfile -ExecutionPolicy Bypass -Command
 endif
 
-.phony: setup
+.PHONY: setup
 setup: registry-creds login install-cargo-anypoint ## Setup all required tools to build
 	cargo fetch
 
-.phony: build
+.PHONY: build
 build: build-asset-files ## Build the policy definition and implementation
 	@cargo build --target $(TARGET) --release
 	@cp $(DEFINITION_GCL_PATH) $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml
 	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -n $(DEFINITION_NAMESPACE) -w $(TARGET_DIR)/$(CRATE_NAME).wasm -o $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
-.phony: run
-run: build ## Runs the policy in local flex
-	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in test/config/api.yaml file for the policy configuration"
-	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
-	@anypoint-cli-v4 pdk patch-gcl -f test/config/api.yaml -p "spec.policies[0].policyRef.namespace" -v "$(DEFINITION_NAMESPACE)"
-	rm -f test/config/custom-policies/*.yaml
-	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml test/config/custom-policies/$(CRATE_NAME)_implementation.yaml
-	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml test/config/custom-policies/$(CRATE_NAME)_definition.yaml
-	-docker compose -f ./test/docker-compose.yaml down
-	docker compose -f ./test/docker-compose.yaml up
+.PHONY: run
+run: build ## Run the policy in local flex
+	@anypoint-cli-v4 pdk log -t "warn" -m "Remember to update the config values in playground/config/api.yaml file for the policy configuration"
+	@anypoint-cli-v4 pdk patch-gcl -f playground/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(DEFINITION_NAME)-impl"
+	@anypoint-cli-v4 pdk patch-gcl -f playground/config/api.yaml -p "spec.policies[0].policyRef.namespace" -v "$(DEFINITION_NAMESPACE)"
+	rm -f playground/config/custom-policies/*.yaml
+	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml playground/config/custom-policies/$(CRATE_NAME)_implementation.yaml
+	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml playground/config/custom-policies/$(CRATE_NAME)_definition.yaml
+	-docker compose -f ./playground/docker-compose.yaml down
+	docker compose -f ./playground/docker-compose.yaml up
 
-.phony: test
+.PHONY: test
 test: build ## Run integration tests
-	rm -f test/config/custom-policies/*.yaml
-	cp $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml test/config/custom-policies/$(CRATE_NAME)_implementation.yaml
-	cp $(TARGET_DIR)/$(CRATE_NAME)_definition.yaml test/config/custom-policies/$(CRATE_NAME)_definition.yaml
 	@cargo test
 
-.phony: publish
+.PHONY: publish
 publish: build ## Publish a development version of the policy
 	anypoint-cli-v4 pdk policy-project publish --binary-path $(TARGET_DIR)/$(CRATE_NAME).wasm --implementation-gcl-path $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
-.phony: release
+.PHONY: release
 release: build ## Publish a release version
 	anypoint-cli-v4 pdk policy-project release --binary-path $(TARGET_DIR)/$(CRATE_NAME).wasm --implementation-gcl-path $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 
-.phony: build-asset-files
+.PHONY: build-asset-files
 build-asset-files: $(DEFINITION_SRC_GCL_PATH)
 	@anypoint-cli-v4 pdk policy-project build-asset-files --metadata '$(ANYPOINT_METADATA_JSON)'
 	@cargo anypoint config-gen -p -m $(DEFINITION_SRC_GCL_PATH) -o src/generated/config.rs
 
-.phony: login
+.PHONY: login
 login:
 	@cargo login --registry anypoint $(OAUTH_TOKEN)
 
-.phony: registry-creds
+.PHONY: registry-creds
 registry-creds:
 	@git config --global credential."{{ anypoint-registry-url }}".username me
 	@# First removing other password helpers for Anypoint context
@@ -68,7 +65,7 @@ registry-creds:
 	@# Finally adding the only password helper for Anypoint context
 	@git config --global --add credential."{{ anypoint-registry-url }}".helper "!f() { test \"\$$1\" = get && echo \"password=\$$(anypoint-cli-v4 pdk get-token)\"; }; f"
 
-.phony: install-cargo-anypoint
+.PHONY: install-cargo-anypoint
 install-cargo-anypoint:
 	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-rc.2" }} --registry anypoint --config .cargo/config.toml
 
