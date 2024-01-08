@@ -1,16 +1,14 @@
 // Copyright 2023 Salesforce, Inc. All rights reserved.
 
+mod common;
+
 use httpmock::MockServer;
 use pdk_test::{pdk_test, TestComposite};
 use pdk_test::port::Port;
 use pdk_test::services::flex::{FlexConfig, Flex};
 use pdk_test::services::httpmock::{HttpMockConfig, HttpMock};
 
-// Directory where the policies implementations are stored.
-const POLICY_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/test/config/custom-policies");
-
-// Directory with the common configurations for tests.
-const COMMON_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/common");
+use common::*;
 
 // Directory with the configurations for the `hello` test.
 const HELLO_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/hello");
