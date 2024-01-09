@@ -3,7 +3,8 @@ mod generated;
 
 use anyhow::{anyhow, Result};
 
-use pdk::api::hl::*;
+use pdk::hl::*;
+use pdk::logger;
 
 use crate::generated::config::Config;
 
