@@ -17,8 +17,10 @@ spec:
 
         # Override the `{{project-name}}` placeholder with the actual policy name.
         # Look for the actual policy name at the `metadata.name` property from the `gcl.yaml` file.
-        name: {{project-name}}       
-        
+        name: {{project-name}}
+        # Also, if the policy definition gcl.yaml specifies a namespace other than default, override it too
+        namespace: default
+
       # Fill the config with a policy configuration that matches the schema specified in the policy
       # definition gcl.yaml. Eg:
       # config:
