@@ -10,7 +10,7 @@ edition = "2018"
 [package.metadata.anypoint]
 group_id = "{{ group-id }}"
 definition_asset_id = "{{ project-name }}"
-asset_id = "{{ asset-id }}"
+implementation_asset_id = "{{ implementation-asset-id }}"
 
 [dependencies]
 pdk = { version = "{{ pdk_version | default: "1.0.0-rc.1" }}", registry = "anypoint" }
