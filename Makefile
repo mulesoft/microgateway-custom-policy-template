@@ -41,7 +41,7 @@ run: build ## Run the policy in local flex
 
 .PHONY: test
 test: build ## Run integration tests
-	@cargo test
+	@cargo test -- --nocapture
 
 .PHONY: publish
 publish: build ## Publish a development version of the policy
