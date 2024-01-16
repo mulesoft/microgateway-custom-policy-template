@@ -70,7 +70,7 @@ registry-creds:
 
 .PHONY: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-rc.2" }} --registry anypoint --config .cargo/config.toml
+	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.0.0-rc.3" }} --registry anypoint --config .cargo/config.toml
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:
