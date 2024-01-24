@@ -1,18 +1,31 @@
 # "{{ project-name }}" Policy
 
-## Development lifecycle
+This policy was created with the Policy Development Kit. For more information about the PDK, visit the [Documentation site](https://docs.mulesoft.com/pdk/1.0/policies-pdk-overview).
+
+
+## Make command reference
 This project has a Makefile that includes different goals that assist the developer during the policy development lifecycle.
+
+*For more information about the Makefile, visit the [Makefile](https://docs.mulesoft.com/pdk/1.0/policies-pdk-create-project#makefile) docs section.*
 
 ### Setup
 The `make setup` goal installs the Policy Development Kit internal dependencies for the rest of the Makefile goals.
 Since these dependencies are provided by the Anypoint Platform, it requires the user to be authenticated with a set of valid Anypoint credentials.
 
+*For more information about `make setup`, visit the [Setup the PDK Build environment](https://docs.mulesoft.com/pdk/1.0/policies-pdk-create-project#setup-the-pdk-build-environment) docs section.*
+
 ### Build asset files
 The `make build-asset-files` goal generates all the policy asset files required to build, execute, and publish the policy. This command also updates the `config.rs` source code file with the latest configurations defined in the policy definition.
+
+*For more information about creating a policy definition, visit the [Defining a Policy Schema Definition](https://docs.mulesoft.com/pdk/1.0/policies-pdk-create-schema-definition) docs section.*
+
+*For more information about `make build-asset-files`, visit the [Compiling Custom Policies](https://docs.mulesoft.com/pdk/1.0/policies-pdk-compile-policies) docs section.*
 
 ### Build
 The `make build` goal compiles the WebAssembly binary of the policy.
 Since the source code must be in sync with the policy definition configurations, this goal runs the `build-asset-files` before compiling.
+
+*For more information about `make build`, visit the [Compiling Custom Policies](https://docs.mulesoft.com/pdk/1.0/policies-pdk-compile-policies) docs section.*
 
 ### Run
 The `make run` goal provides a simple way to execute the current build of the policy in a Docker containerized environment. In order to run this goal, the `playground/config` directory must contain a set of files required for executing the policy in a Flex Gateway instance:
@@ -28,10 +41,14 @@ Otherwise, to complete the registration we recommend using the Anypoint Platform
 
 The `playground/config` directory can also contain other resource definitions, such as accessory services used by the policy (Eg. a remote authentication service).
 
+*For more information about `make build`, visit the [Debugging Custom Policies Locally with PDK](https://docs.mulesoft.com/pdk/1.0/policies-pdk-debug-local) docs section.*
+
 ### Test
-The `make test` goal runs unit tests and integration tests. Integration tests are 
+The `make test` goal runs unit tests and integration tests. Integration tests are
 placed in the `tests` directory and are configured with the files placed at the
 `tests/<module-name>/<test-name>` directory.
+
+*For more information about writing integration tests, visit the [Writing Integration Tests](https://docs.mulesoft.com/pdk/1.0/policies-pdk-integration-tests) docs section.*
 
 ### Publish
 The `make publish` goal publishes the policy asset in Anypoint Exchange, in your configured Organization.
@@ -42,5 +59,9 @@ Since the publish goal is intended to publish a policy asset in development, the
 - assetId: _{your-policy-asset-id}-dev_
 - version: _{your-policy-version}-20230618115723_
 
+*For more information about publishing policies, visit the [Uploading Custom Policies to Exchange](https://docs.mulesoft.com/pdk/1.0/policies-pdk-publish-policies) docs section.*
+
 ### Release
 The `make release` goal also publishes the policy to Anypoint Exchange, but as a ready for production asset. In this case, the groupId, visible name, assetId and version will be the ones defined in the project.
+
+*For more information about releasing policies, visit the [Uploading Custom Policies to Exchange](https://docs.mulesoft.com/pdk/1.0/policies-pdk-publish-policies) docs section.*
