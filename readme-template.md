@@ -41,7 +41,7 @@ Otherwise, to complete the registration we recommend using the Anypoint Platform
 
 The `playground/config` directory can also contain other resource definitions, such as accessory services used by the policy (Eg. a remote authentication service).
 
-*For more information about `make build`, visit the [Debugging Custom Policies Locally with PDK](https://docs.mulesoft.com/pdk/1.0/policies-pdk-debug-local) docs section.*
+*For more information about `make run`, visit the [Debugging Custom Policies Locally with PDK](https://docs.mulesoft.com/pdk/1.0/policies-pdk-debug-local) docs section.*
 
 ### Test
 The `make test` goal runs unit tests and integration tests. Integration tests are
