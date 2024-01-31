@@ -15,7 +15,7 @@ spec:
   policies:
     - policyRef:
 
-        # Override the `{{project-name}}` placeholder with the actual policy name.
+        # In case the project name changes, override this value with the actual policy name.
         # To obtain the actual name, run the "make show-policy-ref-name" goal, or read it from
         # "target/policy-ref-name.txt" after building the project.
         name: {{project-name}}-v1-0-impl
