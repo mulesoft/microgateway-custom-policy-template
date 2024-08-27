@@ -10,11 +10,13 @@ use crate::generated::config::Config;
 
 // This filter shows how to log a specific request header.
 // You can extend the function and use the configurations exposed in config.rs file
-async fn request_filter(request_state: RequestState, _config: &Config) {
+async fn request_filter(request_state: RequestState, _config: &Config) -> Flow<()> {
     let headers_state = request_state.into_headers_state().await;
     let token = headers_state.handler().header("Token").unwrap_or_default();
     // Log the header value
     logger::info!("Header value: {token}");
+
+    Flow::Continue(())
 }
 
 #[entrypoint]

@@ -1,7 +1,7 @@
 TARGET                	:= wasm32-wasi
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
-POLICY_REF_NAME_SUFFIX 	:= -impl
+POLICY_REF_NAME_SUFFIX 	:= -flex
 DEFINITION_NAME        	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_NAMESPACE   	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-namespace)
 DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition-src)
