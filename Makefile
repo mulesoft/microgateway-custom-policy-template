@@ -1,7 +1,7 @@
 TARGET                	:= wasm32-wasi
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
-POLICY_REF_NAME_SUFFIX 	:= -impl
+POLICY_REF_NAME_SUFFIX 	:= -flex
 DEFINITION_NAME        	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_NAMESPACE   	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-namespace)
 DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition-src)
@@ -10,6 +10,7 @@ CRATE_NAME             	= $(shell cargo anypoint get-name)
 OAUTH_TOKEN            	= $(shell anypoint-cli-v4 pdk get-token)
 POLICY_REF_NAME        	= $(DEFINITION_NAME)$(POLICY_REF_NAME_SUFFIX)
 SETUP_ERROR_CMD        	= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
+export PDK_COMPATIBILITY_VERSION = 1.4.0
 
 ifeq ($(OS), Windows_NT)
     SHELL = powershell.exe
@@ -87,7 +88,7 @@ endif
 
 .PHONY: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.2.0" }} --registry anypoint --config .cargo/config.toml
+	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.4.0" }} --registry anypoint --config .cargo/config.toml
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:
