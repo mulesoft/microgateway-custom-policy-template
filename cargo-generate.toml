@@ -3,6 +3,7 @@
 cargo_generate_version = ">=0.10.0"
 ignore = [
     "kilonova.yaml",
+    "renovate.json",
     "Dockerfile",
     "Jenkinsfile",
     "Readme.md",
