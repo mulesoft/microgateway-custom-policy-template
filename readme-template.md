@@ -49,11 +49,6 @@ The `make test` goal runs unit tests and integration tests. Integration tests ar
 
 *For more information about writing integration tests, see [Writing Integration Tests](https://docs.mulesoft.com/pdk/latest/policies-pdk-integration-tests).*
 
-### Test
-The `make test` goal runs unit tests and integration tests. Integration tests are 
-placed in the `tests` directory and are configured with the files placed at the
-`tests/config` directory.
-
 ### Publish
 The `make publish` goal publishes the policy asset in Anypoint Exchange, in your configured Organization.
 
