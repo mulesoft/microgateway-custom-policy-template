@@ -18,6 +18,7 @@ ignore = [
     ".dockerignore",
     ".gitpod.Dockerfile",
     ".gitpod.yml",
+    "LICENSE.txt"
 ]
 
 [placeholders.asset-version]
@@ -28,9 +29,9 @@ prompt = "Please provide an initial version for the policy to create"
 type = "string"
 prompt = "Please provide the group-id of the policy assets"
 
-[placeholders.asset-id]
+[placeholders.implementation-asset-id]
 type = "string"
-prompt = "Please provide an asset-id for the policy"
+prompt = "Please provide an implementation-asset-id for the policy"
 
 [placeholders.anypoint-registry-url]
 type = "string"
