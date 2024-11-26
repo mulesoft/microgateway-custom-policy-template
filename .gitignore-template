@@ -1,5 +1,6 @@
-target/*
-test/config/custom-policies/*
+target
+playground/config/custom-policies/*
+!playground/config/custom-policies/note.txt
 .pdk
 registration.yaml
 certificate.yaml

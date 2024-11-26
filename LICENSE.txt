@@ -1,0 +1,24 @@
+This Flex Policy Development Kit is subject to the terms of Customer's
+Master/Main Services Agreement with Salesforce.
+
+In addition, Salesforce grants to Customer a non-transferable,
+non-sublicensable, non-exclusive license during the applicable Order Form
+term to use the Software in object code and source code form for Customer's
+internal business operations in accordance with (i) the Documentation,
+(ii) the Agreement, and (iii) the following terms: (a) Customer may copy and
+install on Customer's computers for use only by Customer's employees and/or a
+third party providing services to Customer one copy of the Software for each
+subscription designated in the applicable Order Form (and one additional copy
+for archival purposes), (b) upon expiration or termination of the Order Form
+and/or the Agreement, Customer shall cease using and destroy all copies of the
+Software, (c) Customer shall maintain accurate records of its use of the
+Software for one year following expiration of the Order Term for the applicable
+Software, and Salesforce, MuleSoft, or its designates may, once per year at its
+own expense, review such records for completeness and accuracy. Warranty claims
+are only available if Software is properly installed and used in accordance
+with the Agreement and Documentation and claims are made in writing within 30
+days of the subscription start date. Claims do not extend to: (i) any
+modifications to the Software done by or on behalf of Customer, or (ii) items
+provided on a no charge or evaluation basis. The Software is not hosted by or
+on behalf of Salesforce or MuleSoft and any data processed with the Software is
+not Customer Data as defined in the MSA.
