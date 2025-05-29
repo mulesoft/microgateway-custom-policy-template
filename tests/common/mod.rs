@@ -11,4 +11,4 @@ pub const COMMON_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests
 // In case the project name changes, override this value with the actual policy name.
 // To obtain the current name, run the "make show-policy-ref-name" goal, or read it from
 // "target/policy-ref-name.txt" after building the project.
-pub const POLICY_NAME: &str = "{{project-name}}-v1-0-flex";
+pub const POLICY_NAME: &str = "{{implementation-asset-id}}-v1-0";
