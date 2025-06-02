@@ -1,5 +1,5 @@
 export PDK_COMPATIBILITY_VERSION = 1.4.0
-TARGET                	:= wasm32-wasi
+TARGET                	:= wasm32-wasip1
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
 DEFINITION_NAME        	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
