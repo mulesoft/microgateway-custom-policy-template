@@ -17,6 +17,7 @@ pdk = { version = "{{ pdk_version | default: "1.4.0-rc.1" }}", registry = "anypo
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
 anyhow = "1.0"
+base64ct = "=1.7.3"
 
 [dev-dependencies]
 pdk-test = { version = "{{ pdk_version | default: "1.4.0-rc.1" }}", registry = "anypoint" }
