@@ -40,7 +40,7 @@ async fn hello() -> anyhow::Result<()> {
 
     // Configure a Flex service
     let flex_config = FlexConfig::builder()
-        .version("1.7.0")
+        .version("1.10.0")
         .hostname("local-flex")
         .with_api(api_config)
         .config_mounts([
