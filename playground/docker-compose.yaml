@@ -3,7 +3,7 @@ version: "3.3"
 
 services:
   local-flex:
-    image: mulesoft/flex-gateway:1.10.0
+    image: artifacts.msap.io/mulesoft/microgateway:v1.9.6.6058ef3
     ports:
       - 8081:8081
     volumes:
