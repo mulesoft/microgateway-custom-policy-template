@@ -87,7 +87,7 @@ endif
 
 .PHONY: install-cargo-anypoint
 install-cargo-anypoint:
-	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.6.0-rc.0" }} --registry anypoint --config .cargo/config.toml
+	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "test11-1.5.1-rc.0" }} --registry anypoint --config .cargo/config.toml
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:
