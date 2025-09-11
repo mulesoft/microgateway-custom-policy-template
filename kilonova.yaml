@@ -2,7 +2,7 @@ product: microgateway
 component: custom-policy
 asset: template
 componentType: template
-version: '1.6'
+version: "1.7"
 builder:
   name: docker
   version: v1
