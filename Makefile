@@ -1,4 +1,4 @@
-export PDK_COMPATIBILITY_VERSION = 1.6.0-rc.0
+export PDK_COMPATIBILITY_VERSION = 1.4.0
 TARGET                	:= wasm32-wasip1
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
