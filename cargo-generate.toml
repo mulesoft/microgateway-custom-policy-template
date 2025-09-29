@@ -43,10 +43,5 @@ type = "string"
 prompt = "PDK source configuration"
 default = "{ version = "{{ pdk_version | default: "1.6.0-rc.0" }}", registry = "anypoint" }"
 
-[placeholders.pdk_test_source]
-type = "string"
-prompt = "PDK-test source configuration
-default = "{ version = "{{ pdk_version | default: "1.6.0-rc.0" }}", registry = "anypoint" }"
-
 [hooks]
 post = ["post-script.rhai"]
