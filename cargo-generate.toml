@@ -38,14 +38,5 @@ prompt = "Please provide an implementation-asset-id for the policy"
 type = "string"
 prompt = "Please provide the URL of the Anypoint registry"
 
-[placeholders.pdk_version]
-type = "string"
-prompt = "PDK version (leave empty for default)"
-default = "1.6.0-rc.0"
-
-[placeholders.pdk_source]
-type = "string"
-prompt = "PDK dependency configuration (leave empty for default)"
-
 [hooks]
 post = ["post-script.rhai"]
