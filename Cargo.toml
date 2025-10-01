@@ -19,7 +19,7 @@ serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
 anyhow = "1.0"
 
 [dev-dependencies]
-pdk-test = {{ pdk_source }}
+pdk-test = {{ pdk_test_source }}
 httpmock = "0.6"
 reqwest = "0.11"
 
