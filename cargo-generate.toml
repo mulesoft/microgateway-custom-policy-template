@@ -39,4 +39,5 @@ type = "string"
 prompt = "Please provide the URL of the Anypoint registry"
 
 [hooks]
+pre = ["pre-script.rhai"]
 post = ["post-script.rhai"]
