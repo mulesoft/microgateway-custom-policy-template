@@ -8,12 +8,6 @@ This project has a Makefile that includes different goals that assist the develo
 
 *For more information about the Makefile, see [Makefile](https://docs.mulesoft.com/pdk/latest/policies-pdk-create-project#makefile).*
 
-### Setup
-The `make setup` goal installs the Policy Development Kit internal dependencies for the rest of the Makefile goals.
-Since these dependencies are provided by the Anypoint Platform, it requires the user to be authenticated with a set of valid Anypoint credentials.
-
-*For more information about `make setup`, see [Setup the PDK Build environment](https://docs.mulesoft.com/pdk/latest/policies-pdk-create-project#setup-the-pdk-build-environment).*
-
 ### Build asset files
 The `make build-asset-files` goal generates all the policy asset files required to build, execute, and publish the policy. This command also updates the `config.rs` source code file with the latest configurations defined in the policy definition.
 
