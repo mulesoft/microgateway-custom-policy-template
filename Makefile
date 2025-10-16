@@ -7,7 +7,6 @@ DEFINITION_NAMESPACE   	= $(shell anypoint-cli-v4 pdk policy-project definition 
 DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition-src)
 DEFINITION_GCL_PATH    	= $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 CRATE_NAME             	= $(shell cargo anypoint get-name)
-OAUTH_TOKEN            	= $(shell anypoint-cli-v4 pdk get-token)
 POLICY_REF_NAME        	= $(shell cargo anypoint get-policy-implementation-name)
 SETUP_ERROR_CMD        	= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
@@ -22,6 +21,10 @@ ifeq ($(OS), Windows_NT)
 else
 	ANYPOINT_METADATA_JSON  = $(shell cargo anypoint get-anypoint-metadata)
 endif
+
+.PHONY: setup
+setup: install-cargo-anypoint ## Setup Cargo Anypoint to build
+	cargo fetch
 
 .PHONY: build
 build: build-asset-files ## Build the policy definition and implementation
@@ -62,9 +65,9 @@ build-asset-files: $(DEFINITION_SRC_GCL_PATH)
 	@anypoint-cli-v4 pdk policy-project build-asset-files --metadata '$(ANYPOINT_METADATA_JSON)'
 	@cargo anypoint config-gen -p -m $(DEFINITION_SRC_GCL_PATH) -o src/generated/config.rs
 
-.PHONY: login
-login:
-	@cargo login --registry anypoint $(OAUTH_TOKEN)
+.PHONY: install-cargo-anypoint
+install-cargo-anypoint:
+	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.6.0-rc.0" }}
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:
