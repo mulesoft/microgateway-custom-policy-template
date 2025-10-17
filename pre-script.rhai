@@ -15,6 +15,7 @@ if variable::is_set(PDK_TEST_SOURCE) {
     print("DEBUG: PDK_TEST_SOURCE value: " + variable::get(PDK_TEST_SOURCE));
 }
 
+// Only set default values if variables are NOT set
 if !variable::is_set(PDK_SOURCE) {
     print("DEBUG: Setting PDK_SOURCE to default value");
     if variable::is_set(PDK_VERSION) {
@@ -25,11 +26,15 @@ if !variable::is_set(PDK_SOURCE) {
         variable::set(PDK_SOURCE, `{ version = "1.6.0-rc.0" }`);
         print("DEBUG: Set PDK_SOURCE to default version: 1.6.0-rc.0");
     }
+} else {
+    print("DEBUG: PDK_SOURCE already set, keeping existing value");
 }
 
 if !variable::is_set(PDK_TEST_SOURCE) {
     print("DEBUG: Setting PDK_TEST_SOURCE to PDK_SOURCE value");
     variable::set(PDK_TEST_SOURCE, variable::get(PDK_SOURCE));
+} else {
+    print("DEBUG: PDK_TEST_SOURCE already set, keeping existing value");
 }
 
 // Final debug: Log final values
