@@ -1,4 +1,4 @@
-export PDK_COMPATIBILITY_VERSION = 1.5.0-rc.2
+export PDK_COMPATIBILITY_VERSION = 1.4.0
 TARGET                	:= wasm32-wasip1
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
@@ -8,7 +8,7 @@ DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl 
 DEFINITION_GCL_PATH    	= $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition)
 CRATE_NAME             	= $(shell cargo anypoint get-name)
 OAUTH_TOKEN            	= $(shell anypoint-cli-v4 pdk get-token)
-POLICY_REF_NAME        	= $(shell cargo anypoint get-policy-implementation-name)
+POLICY_REF_NAME        	= $(shell export PDK_COMPATIBILITY_VERSION=$(PDK_COMPATIBILITY_VERSION); cargo anypoint get-policy-implementation-name)
 SETUP_ERROR_CMD        	= (echo "ERROR:\n\tMissing custom policy project setup. Please run 'make setup'\n")
 
 ifeq ($(OS), Windows_NT)
