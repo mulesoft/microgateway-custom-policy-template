@@ -7,9 +7,9 @@ const PDK_VERSION = "pdk_version";
 if !variable::is_set(PDK_SOURCE) {
     if variable::is_set(PDK_VERSION) {
         let version = variable::get(PDK_VERSION);
-        variable::set(PDK_SOURCE, `{ version = "${version}", registry = "anypoint" }`)
+        variable::set(PDK_SOURCE, `{ version = "${version}" }`)
     } else {
-        variable::set(PDK_SOURCE, `{ version = "1.6.0-rc.0", registry = "anypoint" }`)
+        variable::set(PDK_SOURCE, `{ version = "1.6.0-rc.0" }`)
     }
 }
 
