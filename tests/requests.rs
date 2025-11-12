@@ -41,7 +41,7 @@ async fn hello() -> anyhow::Result<()> {
     // Configure a Flex service
     let flex_config = FlexConfig::builder()
         .image_name("docker.repo.local.sfdc.net/sfci/gec/mulesoft-emu/microgateway-policy-engine/microgateway")
-            .version("1.10.4")
+            .version("1.9.2600")
         .hostname("local-flex")
         .with_api(api_config)
         .config_mounts([

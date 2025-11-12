@@ -3,7 +3,7 @@ version: "3.3"
 
 services:
   local-flex:
-    image: docker.repo.local.sfdc.net/sfci/gec/mulesoft-emu/microgateway-policy-engine/microgateway:1.10.4
+    image: docker.repo.local.sfdc.net/sfci/gec/mulesoft-emu/microgateway-policy-engine/microgateway:1.9.2600
     ports:
       - 8081:8081
     volumes:
