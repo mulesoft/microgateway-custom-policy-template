@@ -4,6 +4,9 @@ const PDK_SOURCE = "pdk_source";
 const PDK_TEST_SOURCE = "pdk_test_source";
 const PDK_VERSION = "pdk_version";
 
+const PROJECT_MODE = "project-mode";
+const DEFAULT_PROJECT_MODE = "unified";
+
 if !variable::is_set(PDK_SOURCE) {
     if variable::is_set(PDK_VERSION) {
         let version = variable::get(PDK_VERSION);
@@ -15,4 +18,8 @@ if !variable::is_set(PDK_SOURCE) {
 
 if !variable::is_set(PDK_TEST_SOURCE) {
     variable::set(PDK_TEST_SOURCE, variable::get(PDK_SOURCE))
+}
+
+if !variable::is_set(PROJECT_MODE) {
+    variable::set(PROJECT_MODE, DEFAULT_PROJECT_MODE)
 }
