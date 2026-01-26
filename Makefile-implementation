@@ -54,7 +54,7 @@ release: build-asset-files  build ## Publish a release version
 
 .PHONY: install-cargo-anypoint
 install-cargo-anypoint:
-	@cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.7.0-rc.0" }}
+	@cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.7.0-alpha.0" }}
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:

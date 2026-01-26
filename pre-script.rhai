@@ -12,7 +12,7 @@ if !variable::is_set(PDK_SOURCE) {
         let version = variable::get(PDK_VERSION);
         variable::set(PDK_SOURCE, `{ version = "${version}" }`)
     } else {
-        variable::set(PDK_SOURCE, `{ version = "1.7.0-rc.0" }`)
+        variable::set(PDK_SOURCE, `{ version = "1.7.0-alpha.0" }`)
     }
 }
 
