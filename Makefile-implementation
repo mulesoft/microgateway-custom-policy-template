@@ -34,8 +34,7 @@ build: ## Builds the policy implementation
 
 .PHONY: run
 run: build  ## Run the policy in local flex
-	@anypoint-cli-v4 pdk patch-gcl -f playground/config/api.yaml -p "spec.policies[0].policyRef.name" -v "$(POLICY_REF_NAME)"
-	@anypoint-cli-v4 pdk patch-gcl -f playground/config/api.yaml -p "spec.policies[0].policyRef.namespace" -v "$(DEFINITION_NAMESPACE)"
+	@cargo anypoint patch-api -o playground/config/api.yaml -n $(POLICY_REF_NAME) -s $(DEFINITION_NAMESPACE)
 	@anypoint-cli-v4 pdk install-policy --target ./playground/config/custom-policies --path $(BUILD_POLICY_DIR)/$(CRATE_NAME)/implementation/
 	-docker compose -f ./playground/docker-compose.yaml down
 	docker compose -f ./playground/docker-compose.yaml up
