@@ -24,7 +24,7 @@ else
 endif
 
 .PHONY: setup
-setup: install-cargo-anypoint ## Setup Cargo Anypoint to build
+setup: install-cargo-anypoint install-llvm-cov ## Setup Cargo Anypoint to build
 	cargo fetch
 
 .PHONY: build
@@ -50,7 +50,7 @@ endif
 
 .PHONY: test
 test: build ## Run integration tests
-	@cargo test -- --nocapture
+	@cargo llvm-cov test --html -- --nocapture
 
 .PHONY: publish
 publish: build ## Publish a development version of the policy
@@ -68,6 +68,11 @@ build-asset-files: $(DEFINITION_SRC_GCL_PATH)
 .PHONY: install-cargo-anypoint
 install-cargo-anypoint:
 	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.8.0-rc.0" }}
+
+.PHONY: install-llvm-cov
+install-llvm-cov:
+	rustup component add llvm-tools-preview
+	cargo install cargo-llvm-cov
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:
