@@ -48,8 +48,6 @@ endif
 	-docker compose -f ./playground/docker-compose.yaml down
 	docker compose -f ./playground/docker-compose.yaml up
 
-ARGS ?=
-
 .PHONY: test
 test: build ## Run integration tests
 	@cargo test -- --nocapture
