@@ -24,7 +24,7 @@ else
 endif
 
 .PHONY: setup
-setup: install-cargo-anypoint ## Setup Cargo Anypoint to build
+setup: install-cargo-anypoint install-llvm-cov ## Setup Cargo Anypoint to build, LLVM-cov for coverage
 	cargo fetch
 
 .PHONY: build
@@ -48,9 +48,21 @@ endif
 	-docker compose -f ./playground/docker-compose.yaml down
 	docker compose -f ./playground/docker-compose.yaml up
 
+ARGS ?=
+
 .PHONY: test
 test: build ## Run integration tests
 	@cargo test -- --nocapture
+
+FORMAT     ?=
+OUTPUT_PATH ?=
+
+_COVERAGE_FORMAT = $(if $(filter json,$(FORMAT)),--json,$(if $(filter html,$(FORMAT)),--html,))
+_COVERAGE_OUTPUT = $(if $(OUTPUT_PATH),--output-path $(OUTPUT_PATH),)
+
+.PHONY: test-coverage
+test-coverage: build ## Run tests with coverage. Opts: FORMAT=json|html, OUTPUT_PATH=/my/path
+	cargo llvm-cov test $(_COVERAGE_FORMAT) $(_COVERAGE_OUTPUT) --ignore-filename-regex config.rs -- --nocapture
 
 .PHONY: publish
 publish: build ## Publish a development version of the policy
@@ -68,6 +80,11 @@ build-asset-files: $(DEFINITION_SRC_GCL_PATH)
 .PHONY: install-cargo-anypoint
 install-cargo-anypoint:
 	cargo install cargo-anypoint@{{ cargo_anypoint_version | default: "1.8.0-rc.0" }}
+
+.PHONY: install-llvm-cov
+install-llvm-cov:
+	rustup component add llvm-tools-preview
+	cargo install cargo-llvm-cov
 
 .PHONY: show-policy-ref-name
 show-policy-ref-name:
