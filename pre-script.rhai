@@ -1,4 +1,4 @@
-// Copyright 2023 Salesforce, Inc. All rights reserved.
+// Copyright 2026 Salesforce, Inc. All rights reserved.
 
 const PDK_SOURCE = "pdk_source";
 const PDK_TEST_SOURCE = "pdk_test_source";
@@ -12,7 +12,7 @@ if !variable::is_set(PDK_SOURCE) {
         let version = variable::get(PDK_VERSION);
         variable::set(PDK_SOURCE, `{ version = "${version}" }`)
     } else {
-        variable::set(PDK_SOURCE, `{ version = "1.7.0-rc.0" }`)
+        variable::set(PDK_SOURCE, `{ version = "1.8.0" }`)
     }
 }
 

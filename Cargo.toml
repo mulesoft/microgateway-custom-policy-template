@@ -1,4 +1,4 @@
-# Copyright 2023 Salesforce, Inc. All rights reserved.
+# Copyright 2026 Salesforce, Inc. All rights reserved.
 [package]
 name = "{{ crate_name }}"
 version = "{{ asset-version }}"
@@ -20,6 +20,7 @@ anyhow = "1.0"
 
 [dev-dependencies]
 pdk-test = {{ pdk_test_source }}
+pdk-unit = {{ pdk_test_source }}
 httpmock = "0.6"
 reqwest = "0.11"
 
