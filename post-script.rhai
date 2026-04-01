@@ -1,4 +1,4 @@
-// Copyright 2023 Salesforce, Inc. All rights reserved.
+// Copyright 2026 Salesforce, Inc. All rights reserved.
 file::rename(".gitignore-template", ".gitignore");
 
 const PROJECT_MODE = "project-mode";

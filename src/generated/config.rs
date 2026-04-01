@@ -1,5 +1,12 @@
-// Copyright 2023 Salesforce, Inc. All rights reserved.
+// Copyright 2026 Salesforce, Inc. All rights reserved.
 use serde::Deserialize;
-
-#[derive(Debug, Deserialize)]
-pub struct Config {}
+#[derive(Deserialize, Clone, Debug)]
+pub struct Config {
+    #[serde(alias = "stringProperty")]
+    pub string_property: String,
+}
+#[pdk::hl::entrypoint_flex]
+fn init(abi: &dyn pdk::flex_abi::api::FlexAbi) -> Result<(), anyhow::Error> {
+    abi.setup()?;
+    Ok(())
+}
