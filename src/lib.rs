@@ -59,7 +59,7 @@ mod test {
             .with_entrypoint(super::configure);
 
         // Send a GET request to the policy and verify the response.
-        let response = tester.request_full(UnitHttpRequest::get());
+        let response = tester.request(UnitHttpRequest::get());
         assert_eq!(response.status_code(), 202);
 
         // We obtain the request that reached the backend and verify the header was added.
