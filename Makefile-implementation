@@ -3,7 +3,7 @@ TARGET                	:= wasm32-wasip1
 TARGET_DIR            	:= target/$(TARGET)/release
 BUILD_POLICY_DIR        := target
 CARGO_ANYPOINT        	:= cargo-anypoint
-FIPS                   	:= {% if fips %}true{% else %}false{% endif %}
+FLAGS                  	= {% if fips %}RUSTFLAGS="--cfg fips"{% endif %}
 CRATE_NAME		        = $(shell cargo anypoint get-name)
 DEFINITION_GAV          = $(shell cargo anypoint get-policy-definition-gav)
 DEFINITION_NAMESPACE    := default
@@ -28,11 +28,7 @@ build-asset-files:  ## Retrieves the definition from exchange
 
 .PHONY: build
 build: ## Builds the policy implementation
-ifeq ($(FIPS),true)
-	@RUSTFLAGS="--cfg fips" cargo build --target $(TARGET) --release
-else
-	@cargo build --target $(TARGET) --release
-endif
+	@$(FLAGS) cargo build --target $(TARGET) --release
 	@cargo anypoint build-policy --target=$(BUILD_POLICY_DIR) --wasm=$(TARGET_DIR)/$(CRATE_NAME).wasm --min-runtime-version=$(MIN_FLEX_VERSION)
 	@anypoint-cli-v4 pdk install-policy --target $(TARGET_DIR) --path $(BUILD_POLICY_DIR)/$(CRATE_NAME)/implementation/
 	@echo $(POLICY_REF_NAME) > target/policy-ref-name.txt
