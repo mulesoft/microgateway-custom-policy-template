@@ -7,6 +7,8 @@ const PDK_VERSION = "pdk_version";
 const PROJECT_MODE = "project-mode";
 const DEFAULT_PROJECT_MODE = "unified";
 
+const FIPS = "fips";
+
 if !variable::is_set(PDK_SOURCE) {
     if variable::is_set(PDK_VERSION) {
         let version = variable::get(PDK_VERSION);
@@ -22,4 +24,8 @@ if !variable::is_set(PDK_TEST_SOURCE) {
 
 if !variable::is_set(PROJECT_MODE) {
     variable::set(PROJECT_MODE, DEFAULT_PROJECT_MODE)
+}
+
+if !variable::is_set(FIPS) {
+    variable::set(FIPS, false)
 }
