@@ -2,6 +2,7 @@ export PDK_COMPATIBILITY_VERSION = 1.4.0
 TARGET                	:= wasm32-wasip1
 TARGET_DIR            	:= target/$(TARGET)/release
 CARGO_ANYPOINT        	:= cargo-anypoint
+FLAGS                  	= {% if fips %}RUSTFLAGS="--cfg fips"{% endif %}
 DEFINITION_NAME        	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-name)
 DEFINITION_NAMESPACE   	= $(shell anypoint-cli-v4 pdk policy-project definition get gcl-metadata-namespace)
 DEFINITION_SRC_GCL_PATH = $(shell anypoint-cli-v4 pdk policy-project locate-gcl definition-src)
@@ -29,7 +30,7 @@ setup: install-cargo-anypoint install-llvm-cov ## Setup Cargo Anypoint to build,
 
 .PHONY: build
 build: build-asset-files ## Build the policy definition and implementation
-	@cargo build --target $(TARGET) --release
+	@$(FLAGS) cargo build --target $(TARGET) --release
 	@cp "$(DEFINITION_GCL_PATH)" "$(TARGET_DIR)/$(CRATE_NAME)_definition.yaml"
 	@cargo anypoint gcl-gen -d $(DEFINITION_NAME) -n $(DEFINITION_NAMESPACE) -w $(TARGET_DIR)/$(CRATE_NAME).wasm -o $(TARGET_DIR)/$(CRATE_NAME)_implementation.yaml
 	@echo $(POLICY_REF_NAME) > target/policy-ref-name.txt
