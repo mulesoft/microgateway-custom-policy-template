@@ -11,17 +11,23 @@ A custom policy for [MuleSoft Flex Gateway](https://docs.mulesoft.com/gateway/) 
 
 ```
 .
-├── definition/gcl.yaml          # Policy schema — present only when the definition is local;
-│                                # otherwise the definition lives in Exchange and is referenced
-│                                # via `definition_asset_id` in Cargo.toml
+├── definition/gcl.yaml          # Policy schema — present in `unified` mode only; in
+│                                # `implementation` mode the definition lives in Exchange
+│                                # and is referenced via Cargo.toml
 ├── src/
 │   ├── lib.rs                   # Filter logic — edit here
 │   └── generated/config.rs      # AUTO-GENERATED from the policy definition — do NOT edit by hand
 ├── tests/
 │   ├── requests.rs              # Integration tests (pdk-test, requires Docker)
 │   ├── common/mod.rs
-│   └── config/                  # Drop registration.yaml here — see note.txt for instructions
-├── playground/                  # Local Flex Gateway + sample backend for manual runs
+│   └── config/
+│       └── note.txt             # Drop your registration.yaml here per these instructions
+├── playground/                  # `make run` artifacts: local Flex Gateway + sample backend
+│   ├── docker-compose.yaml      # Spins up Flex Gateway and a backend container
+│   └── config/
+│       ├── api.yaml             # Sample API + policy config consumed at runtime — edit to test
+│       ├── logging.yaml
+│       └── custom-policies/     # Your built .wasm artifacts land here (gitignored)
 ├── Cargo.toml
 └── Makefile
 ```
