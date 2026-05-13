@@ -70,4 +70,3 @@ These cause real bugs in production policies. Watch for them before writing code
 - PDK documentation — https://docs.mulesoft.com/pdk/latest/
 - Flex Gateway documentation — https://docs.mulesoft.com/gateway/
 - Public policy examples — https://github.com/mulesoft/pdk-custom-policy-examples
-- This template — https://github.com/mulesoft/microgateway-custom-policy-template
