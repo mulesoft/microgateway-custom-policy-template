@@ -34,41 +34,6 @@ A custom policy for [MuleSoft Flex Gateway](https://docs.mulesoft.com/gateway/) 
 
 Edit `definition/gcl.yaml` (if present) to change the configurable properties, `src/lib.rs` for filter logic, and `tests/requests.rs` for integration tests. Everything else is generated or boilerplate.
 
-## PDK ecosystem map
-
-Most policies are built from a small set of core APIs plus 0–2 extension libraries. Reach for an existing library before writing your own primitive.
-
-### Core APIs (frequency in production policies)
-
-| Module | Purpose |
-|--------|---------|
-| `pdk::hl` | High-level async framework: `Flow<T>`, `RequestState`/`ResponseState`, `HttpClient`, `Service`, `Response`, timers. Entry point for every policy. |
-| `pdk::logger` | Structured logging with policy and request context auto-injected. Use `trace!`, `debug!`, `info!`, `warn!`, `error!`. |
-| `pdk::policy_violation` | Mark expected, policy-driven request rejections (auth fail, rate limit, validation error). Drives audit and observability. |
-| `pdk::authentication` | Share extracted credentials, tokens, and principals between filters in the same request. |
-| `pdk::script` | Evaluate PEL (Policy Expression Language) expressions provided by the policy config — for dynamic selection logic, do not hard-code. |
-| `pdk::metadata` | Read API and request metadata injected by the platform (SLA tier, custom metadata). |
-
-### Extension libraries (most-used first)
-
-| Library | Use when… |
-|---------|----------|
-| `pdk::contracts` | Validating client credentials against Anypoint Platform contracts (with local caching). |
-| `pdk::rl` | Enforcing per-client / per-tier request rate caps (token bucket, local or distributed). |
-| `pdk::jwt` | Parsing and validating JWTs and extracting claims. Never re-implement signature validation. |
-| `pdk::token_introspection` | Validating opaque OAuth2 tokens or checking scopes via introspection endpoint. |
-| `pdk::ip_filter` | Allow- or block-listing by IP/CIDR. Do not parse CIDRs with regex. |
-| `pdk::data_storage` | Durable, optionally distributed key-value store with CAS semantics. |
-
-Also available but rarely used in current policies: `pdk::cache`, `pdk::cors`, `pdk::json_validator`, `pdk::xml_validator`, `pdk::ldap`, `pdk::lock`, `pdk::spike_control`, `pdk::metrics`. Prefer them over hand-rolled equivalents.
-
-### `pdk::cache` vs `pdk::data_storage`
-
-Both are key-value stores; they solve different problems.
-
-- **`pdk::cache`** — in-memory, FIFO eviction, fast. Use for hot-path caching where data can be lost on restart (HTTP response caching, JWKS caching, short-lived token lookups).
-- **`pdk::data_storage`** — local or clustered backend, persistent, supports compare-and-swap. Use for coordinated state that must survive restarts or be shared across instances (distributed quotas, spike-control state, cross-policy coordination).
-
 ## proxy-wasm runtime
 
 PDK runs on proxy-wasm — single-threaded inside the policy runtime. Code that compiles fine on a desktop target can still be rejected at runtime if it violates these:
