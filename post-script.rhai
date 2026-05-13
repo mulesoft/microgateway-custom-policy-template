@@ -11,6 +11,7 @@ if project_mode == UNIFIED_PROJECT {
     file::rename("readme-template.md", "README.md");
     file::delete("Makefile-implementation");
     file::delete("Cargo-impl.toml");
+    file::delete("AGENTS-implementation.md");
 } else if project_mode == IMPLEMENTATION_PROJECT {
     file::delete("readme-template.md");
     file::rename("readme-implementation.md", "README.md");
@@ -18,4 +19,6 @@ if project_mode == UNIFIED_PROJECT {
     file::rename("Makefile-implementation", "Makefile");
     file::delete("Cargo.toml");
     file::rename("Cargo-impl.toml", "Cargo.toml");
+    file::delete("AGENTS.md");
+    file::rename("AGENTS-implementation.md", "AGENTS.md");
 }

@@ -7,14 +7,15 @@ Context for AI coding agents (Claude Code, Cursor, Codex, Aider, etc.) working i
 
 A custom policy for [MuleSoft Flex Gateway](https://docs.mulesoft.com/gateway/) built with the [Policy Development Kit (PDK)](https://docs.mulesoft.com/pdk/latest/). The policy is written in Rust, compiled to WebAssembly (target `wasm32-wasip1`), and runs as a [proxy-wasm](https://github.com/proxy-wasm/spec) filter inside Flex Gateway. PDK abstracts the asynchronous proxy-wasm event model into a simpler `async`/`await` API.
 
+This is the **implementation** half of a split policy project: the policy definition is published separately and referenced from `Cargo.toml`; the build tooling pulls it from Exchange when needed.
+
 ## Project layout
 
 ```
 .
-├── definition/gcl.yaml          # Policy schema — declares configurable properties
 ├── src/
 │   ├── lib.rs                   # Filter logic — edit here
-│   └── generated/config.rs      # AUTO-GENERATED from definition/gcl.yaml — do NOT edit by hand
+│   └── generated/config.rs      # AUTO-GENERATED from the remote policy definition — do NOT edit by hand
 ├── tests/
 │   ├── requests.rs              # Integration tests (pdk-test, requires Docker)
 │   ├── common/mod.rs
@@ -26,11 +27,11 @@ A custom policy for [MuleSoft Flex Gateway](https://docs.mulesoft.com/gateway/) 
 │       ├── api.yaml             # Sample API + policy config consumed at runtime — edit to test
 │       ├── logging.yaml
 │       └── custom-policies/     # Your built .wasm artifacts land here (gitignored)
-├── Cargo.toml
+├── Cargo.toml                   # References the published definition asset under [package.metadata.anypoint]
 └── Makefile
 ```
 
-Edit `definition/gcl.yaml` to change the configurable properties, `src/lib.rs` for filter logic, and `tests/requests.rs` for integration tests. Everything else is generated or boilerplate.
+Edit `src/lib.rs` for filter logic and `tests/requests.rs` for integration tests. Everything else is generated or boilerplate.
 
 ## proxy-wasm runtime
 
