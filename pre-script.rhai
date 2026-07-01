@@ -9,6 +9,9 @@ const DEFAULT_PROJECT_MODE = "unified";
 
 const FIPS = "fips";
 
+const FLEX_GATEWAY_VERSION = "flex_gateway_version";
+const DEFAULT_FLEX_GATEWAY_VERSION = "1.13.0";
+
 if !variable::is_set(PDK_SOURCE) {
     if variable::is_set(PDK_VERSION) {
         let version = variable::get(PDK_VERSION);
@@ -28,4 +31,8 @@ if !variable::is_set(PROJECT_MODE) {
 
 if !variable::is_set(FIPS) {
     variable::set(FIPS, false)
+}
+
+if !variable::is_set(FLEX_GATEWAY_VERSION) {
+    variable::set(FLEX_GATEWAY_VERSION, DEFAULT_FLEX_GATEWAY_VERSION)
 }
