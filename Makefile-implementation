@@ -8,6 +8,7 @@ CRATE_NAME		        = $(shell cargo anypoint get-name)
 DEFINITION_GAV          = $(shell cargo anypoint get-policy-definition-gav)
 DEFINITION_NAMESPACE    := default
 MIN_FLEX_VERSION        := 1.9.3
+FLEX_IMAGE              := mulesoft/flex-gateway:{{ flex_gateway_version }}
 
 
 ifeq ($(OS), Windows_NT)
@@ -20,6 +21,10 @@ endif
 
 .PHONY: setup
 setup: install-cargo-anypoint install-llvm-cov ## Setup Cargo Anypoint to build, LLVM-cov for coverage
+
+playground/registration.yaml tests/config/registration.yaml: ## Generate a disconnected registration.yaml from the local flex gateway
+	docker image pull $(FLEX_IMAGE)
+	docker run --rm --entrypoint flexctl -v "$(CURDIR)/$(@D)":/registration $(FLEX_IMAGE) registration create --mode disconnected --output-directory=/registration testing-flex
 
 .PHONY: build-asset-files
 build-asset-files:  ## Retrieves the definition from exchange
@@ -34,14 +39,14 @@ build: ## Builds the policy implementation
 	@echo $(POLICY_REF_NAME) > target/policy-ref-name.txt
 
 .PHONY: run
-run: build  ## Run the policy in local flex
+run: build playground/registration.yaml  ## Run the policy in local flex
 	@cargo anypoint patch-api -o playground/config/api.yaml -n $(POLICY_REF_NAME) -s $(DEFINITION_NAMESPACE)
 	@anypoint-cli-v4 pdk install-policy --target ./playground/config/custom-policies --path $(BUILD_POLICY_DIR)/$(CRATE_NAME)/implementation/
 	-docker compose -f ./playground/docker-compose.yaml down
 	docker compose -f ./playground/docker-compose.yaml up
 
 .PHONY: test
-test: build ## Run integration tests
+test: build tests/config/registration.yaml ## Run integration tests
 	@cargo test -- --nocapture
 
 FORMAT     ?=
@@ -51,7 +56,7 @@ _COVERAGE_FORMAT = $(if $(filter json,$(FORMAT)),--json,$(if $(filter html,$(FOR
 _COVERAGE_OUTPUT = $(if $(),--output-path $(OUTPUT_PATH),)
 
 .PHONY: test-coverage
-test-coverage: build ## Run tests with coverage. Opts: FORMAT=json|html, OUTPUT_PATH=/my/path
+test-coverage: build tests/config/registration.yaml ## Run tests with coverage. Opts: FORMAT=json|html, OUTPUT_PATH=/my/path
 	cargo llvm-cov test $(_COVERAGE_FORMAT) $(_COVERAGE_OUTPUT) --ignore-filename-regex config.rs -- --nocapture
 
 .PHONY: publish
