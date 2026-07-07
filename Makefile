@@ -54,9 +54,11 @@ endif
 	-docker compose -f ./playground/docker-compose.yaml down
 	docker compose -f ./playground/docker-compose.yaml up
 
+TEST ?=
+
 .PHONY: test
-test: build tests/config/registration.yaml ## Run integration tests
-	@cargo test -- --nocapture
+test: build tests/config/registration.yaml ## Run integration tests (use TEST=name to run a single test)
+	@cargo test $(TEST) -- --nocapture
 
 FORMAT     ?=
 OUTPUT_PATH ?=
