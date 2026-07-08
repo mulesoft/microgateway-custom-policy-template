@@ -56,8 +56,9 @@ endif
 
 TEST ?=
 
+# Set TEST with a specific test name to run a single test. Example: TEST=hello
 .PHONY: test
-test: build tests/config/registration.yaml ## Run integration tests (use TEST=name to run a single test)
+test: build tests/config/registration.yaml ## Run integration tests
 	@cargo test $(TEST) -- --nocapture
 
 FORMAT     ?=
