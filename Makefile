@@ -54,7 +54,7 @@ endif
 	-docker compose -f ./playground/docker-compose.yaml down
 	docker compose -f ./playground/docker-compose.yaml up
 
-# Set TEST with a specific test name to run a single test using make test. Example: TEST=mytest
+# Set TEST with a specific test name to run a single test using make test. Example: TEST=my_test
 TEST ?=
 
 .PHONY: test
