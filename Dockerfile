@@ -1,4 +1,4 @@
-FROM artifacts.msap.io/mulesoft/api-gateway-base-image-patcher:1.0.58 AS base
+FROM artifacts.msap.io/mulesoft/api-gateway-base-image-patcher:1.0.59 AS base
 
 RUN echo "pending"
 
