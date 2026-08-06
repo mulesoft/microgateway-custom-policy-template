@@ -22,7 +22,7 @@ endif
 .PHONY: setup
 setup: install-cargo-anypoint install-llvm-cov ## Setup Cargo Anypoint to build, LLVM-cov for coverage
 
-playground/registration.yaml tests/config/registration.yaml: ## Generate a disconnected registration.yaml from the local flex gateway
+playground/config/registration.yaml tests/config/registration.yaml: ## Generate a disconnected registration.yaml from the local flex gateway
 	docker image pull $(FLEX_IMAGE)
 	docker run --rm --entrypoint flexctl -v "$(CURDIR)/$(@D)":/registration $(FLEX_IMAGE) registration create --mode disconnected --output-directory=/registration testing-flex
 
@@ -39,7 +39,7 @@ build: ## Builds the policy implementation
 	@echo $(POLICY_REF_NAME) > target/policy-ref-name.txt
 
 .PHONY: run
-run: build playground/registration.yaml  ## Run the policy in local flex
+run: build playground/config/registration.yaml  ## Run the policy in local flex
 	@cargo anypoint patch-api -o playground/config/api.yaml -n $(POLICY_REF_NAME) -s $(DEFINITION_NAMESPACE)
 	@anypoint-cli-v4 pdk install-policy --target ./playground/config/custom-policies --path $(BUILD_POLICY_DIR)/$(CRATE_NAME)/implementation/
 	-docker compose -f ./playground/docker-compose.yaml down
