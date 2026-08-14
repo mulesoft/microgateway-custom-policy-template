@@ -64,6 +64,13 @@ The `make release` goal also publishes the policy to Anypoint Exchange, but as a
 
 *For more information about releasing policies, see [Uploading Custom Policies to Exchange](https://docs.mulesoft.com/pdk/latest/policies-pdk-publish-policies).*
 
+### Skipping unchanged definition publishes
+Both `make publish` and `make release` accept the `SKIP_UNCHANGED_DEFINITION` variable (default `true`). When enabled, the definition is not republished if its content matches the version already published in Exchange; instead the implementation asset is published with its dependency pointing at that already-published definition version. Set `SKIP_UNCHANGED_DEFINITION=false` to always republish the definition:
+
+```
+make publish SKIP_UNCHANGED_DEFINITION=false
+```
+
 
 ### Policy Examples
 
